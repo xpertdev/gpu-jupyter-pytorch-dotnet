@@ -1,26 +1,31 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0.103-jammy
+#FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
+FROM tensorflow/tensorflow:latest-gpu-jupyter
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Amsterdam
+ENV TZ=America/New_York
 
 RUN apt-get update \
     && apt-get -y upgrade \
-    && apt-get -y install python3 python3-pip python3-dev ipython3 nano plantuml libfontconfig1\
-	&& cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar
+    && apt-get -y install wget python3 python3-pip python3-dev ipython3 nano plantuml libfontconfig1\
+    && wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && apt-get update \
+    && apt-get install -y dotnet-sdk-$DOTNET_VERSION \
+    && cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar
 
 RUN apt-get -y install nmap
 
-RUN pip3 install jupyterlab
+#RUN pip3 install jupyterlab
 RUN pip3 install iplantuml
 RUN pip3 install graphviz
 RUN pip3 install matplotlib
 RUN pip install --upgrade ipykernel
 
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash
+#RUN curl -sL https://deb.nodesource.com/setup_20.x | bash
 
-RUN apt install nodejs \
-    && pip3 install --upgrade jupyterlab-git \
-    && jupyter lab build
+# RUN apt install nodejs \
+#     && pip3 install --upgrade jupyterlab-git \
+#     && jupyter lab build
 
 ARG NB_USER="jupyter"
 ARG NB_UID="1000"
