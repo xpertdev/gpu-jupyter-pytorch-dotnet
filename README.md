@@ -1,4 +1,4 @@
-# Jupyter & .Net on Docker
+# Tensorflow with GPU, Jupyter & .Net 8.0 on Docker
 
 https://devblogs.microsoft.com/dotnet/net-interactive-is-here-net-notebooks-preview-2/ and https://hub.docker.com/_/microsoft-dotnet-core-sdk/ slapped together.
 

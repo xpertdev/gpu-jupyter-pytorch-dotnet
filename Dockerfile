@@ -1,25 +1,22 @@
-#FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
 FROM tensorflow/tensorflow:latest-gpu-jupyter
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
+ENV DOTNET_VERSION=8.0
 
-RUN apt-get update \
-    && apt-get -y upgrade \
-    && apt-get -y install wget python3 python3-pip python3-dev ipython3 nano plantuml libfontconfig1\
+RUN apt-get -y install wget sudo nano \
     && wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
     && dpkg -i packages-microsoft-prod.deb \
     && apt-get update \
-    && apt-get install -y dotnet-sdk-$DOTNET_VERSION \
-    && cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar
+    && apt-get -y upgrade \
+    && apt-get -y install python3 python3-pip python3-dev ipython3 plantuml libfontconfig1 nmap dotnet-sdk-$DOTNET_VERSION \
+    && cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf packages-microsoft-prod.deb
 
-RUN apt-get -y install nmap
-
+#RUN apt-get -y install nmap
 #RUN pip3 install jupyterlab
-RUN pip3 install iplantuml
-RUN pip3 install graphviz
-RUN pip3 install matplotlib
-RUN pip install --upgrade ipykernel
+RUN pip3 install --upgrade iplantuml graphviz matplotlib ipykernel
 
 #RUN curl -sL https://deb.nodesource.com/setup_20.x | bash
 
@@ -58,8 +55,7 @@ USER root
 
 RUN chown -R jupyter $HOME/work/examples
 
-RUN apt-get install sudo \
-    && usermod -aG sudo $NB_USER
+RUN usermod -aG sudo $NB_USER
 
 # prevent git init on this level
 RUN mkdir $HOME/work/.git
