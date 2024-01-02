@@ -16,7 +16,7 @@ RUN apt-get -y install wget sudo nano \
 
 #RUN apt-get -y install nmap
 #RUN pip3 install jupyterlab
-RUN pip3 install --upgrade iplantuml graphviz matplotlib ipykernel
+RUN pip3 install --upgrade jupyterlab iplantuml graphviz matplotlib ipykernel
 
 #RUN curl -sL https://deb.nodesource.com/setup_20.x | bash
 
@@ -40,7 +40,7 @@ ENV PATH="${PATH}:$HOME/.dotnet/tools/"
 
 RUN dotnet tool install --global Microsoft.dotnet-interactive
 
-RUN dotnet-interactive jupyter install
+RUN dotnet interactive jupyter install
 RUN jupyter kernelspec list
 
 COPY ./jupyter_notebook_config.py $HOME/.jupyter/jupyter_notebook_config.py

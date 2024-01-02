@@ -5,5 +5,5 @@ if [[ ! -z "${JUPYTER_PASSWORD_HASH}" ]]; then
 elif [[ "${JUPYTER_NO_PASSWORD}" == "true" ]]; then
   jupyter lab --NotebookApp.token='' --NotebookApp.password=''
 else
-  jupyter lab --NotebookApp.token=''
+  jupyter lab
 fi
