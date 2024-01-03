@@ -28,8 +28,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-
+  build-and-publish-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -82,8 +81,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          #images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}, ${{ secrets.DOCKERHUB_USERNAME }}/gpu-jupyter-tensorflow-dotnet
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}, ${{ secrets.DOCKERHUB_USERNAME }}/gpu-jupyter-tensorflow-dotnet
           tags: latest
 
       # Build and push Docker image with Buildx (don't push on PR)
