@@ -11,7 +11,6 @@ RUN apt-get -y install wget \
     && apt-get -y upgrade \
     && apt-get -y install sudo nano python3 python3-pip python3-dev ipython3 plantuml libfontconfig1 nmap dotnet-sdk-$DOTNET_VERSION \
     && cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar \
-    && apt-get clean && \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf packages-microsoft-prod.deb
 
