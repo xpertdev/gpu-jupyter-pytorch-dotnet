@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  jupyternotebook:
+    image: "acevpn/gpu-jupyter-tensorflow-dotnet:latest"
+    #env_file: "env-file"
+    container_name: jupyternotebook
+    environment:
+      - PUID=1000
+      - PGID=1000
+      #- JUPYTER_NO_PASSWORD=true
+      #- JUPYTER_PASSWORD_HASH=<somehash>
+    volumes:
+      - ./JupyterNotebook:/home/jupyter/work
+    #working_dir: /home/jupyter/work
+    ports:
+      - "8888:8888/tcp"
+    restart: unless-stopped  
+    ipc: host
+    deploy:
+        resources:
+          reservations:
+            devices:
+              - driver: nvidia
+                count: all
+                #device_ids: ['0']
+                capabilities: [gpu,compute,utility,video]
+    networks:
+      - docker_network_bridge
+
+networks:
+  docker_network_bridge:
+    external: true    
