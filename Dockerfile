@@ -1,14 +1,10 @@
 FROM tensorflow/tensorflow:latest-gpu-jupyter
+FROM tensorflow/tensorflow:latest-gpu-jupyter
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/New_York
-ENV DOTNET_VERSION=9.0
+ENV TZ=Europe/Amsterdam
 
-ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
-ENV DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1
-
-RUN apt-get -y install wget \
-    && apt-get update \
+RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install sudo nano python3 python3-pip python3-dev ipython3 plantuml libfontconfig1 nmap dotnet-sdk-$DOTNET_VERSION \
     && cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar \
@@ -32,6 +28,8 @@ RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
 USER $NB_USER
 
 ENV HOME=/home/$NB_USER
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+ENV DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1
 
 WORKDIR $HOME
 
