@@ -4,13 +4,14 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 ENV DOTNET_VERSION=9.0
 
-RUN apt-get update \
-    && apt-get -y upgrade \
-    && apt-get -y install sudo nano python3 python3-pip python3-dev ipython3 plantuml libfontconfig1 nmap dotnet-sdk-$DOTNET_VERSION \
-    && cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar \
-    && rm -rf /var/lib/apt/lists/* \
+RUN apt-get update && apt-get -y upgrade \
+    && apt-get -y install sudo nano python3 python3-pip python3-dev ipython3 libfontconfig1 nmap \ 
+    #&& cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade jupyterlab iplantuml graphviz matplotlib ipykernel
+RUN curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -Channel $DOTNET_VERSION -InstallDir /usr/share/dotnet \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+RUN pip3 install --upgrade jupyterlab matplotlib ipykernel
 
 #RUN curl -sL https://deb.nodesource.com/setup_20.x | bash
 
@@ -36,7 +37,7 @@ ENV PATH="${PATH}:$HOME/.dotnet/tools/"
 
 RUN dotnet tool install --global Microsoft.dotnet-interactive
 
-RUN dotnet interactive jupyter install
+#RUN dotnet interactive jupyter install
 RUN jupyter kernelspec list
 
 COPY ./jupyter_notebook_config.py $HOME/.jupyter/jupyter_notebook_config.py
