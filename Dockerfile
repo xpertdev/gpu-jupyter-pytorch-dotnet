@@ -2,7 +2,9 @@ FROM quay.io/jupyter/pytorch-notebook:cuda12-latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
-ENV DOTNET_VERSION=9.0
+ENV DOTNET_VERSION=8.0
+
+USER root
 
 RUN apt-get update && apt-get -y upgrade \
     && apt-get -y install wget sudo nano python3 python3-pip python3-dev ipython3 libfontconfig1 \ 
@@ -20,7 +22,7 @@ RUN pip3 install --upgrade jupyterlab matplotlib ipykernel
 #     && jupyter lab build
 
 ARG NB_USER="jupyter"
-ARG NB_UID="1000"
+ARG NB_UID="1001"
 ARG NB_GID="100"
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
@@ -37,7 +39,7 @@ ENV PATH="${PATH}:$HOME/.dotnet/tools/"
 
 RUN dotnet tool install --global Microsoft.dotnet-interactive
 
-#RUN dotnet interactive jupyter install
+RUN dotnet interactive jupyter install
 RUN jupyter kernelspec list
 
 COPY ./jupyter_notebook_config.py $HOME/.jupyter/jupyter_notebook_config.py
