@@ -3,6 +3,7 @@ FROM tensorflow/tensorflow:latest-gpu-jupyter
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 ENV DOTNET_VERSION=9.0
+ENV DOTNET_VERSION=9.0
 
 RUN apt-get update && apt-get -y upgrade \
     && apt-get -y install sudo nano python3 python3-pip python3-dev ipython3 libfontconfig1 nmap \ 
