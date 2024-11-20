@@ -79,7 +79,16 @@ jobs:
         with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/gpu-jupyter-pyspark-dotnet
           #images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}, ${{ secrets.DOCKERHUB_USERNAME }}/gpu-jupyter-pyspark-dotnet
-          tags: latest
+          #tags: latest
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            type=raw,value=latest
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
