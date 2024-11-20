@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:latest-gpu-jupyter
+FROM quay.io/jupyter/pytorch-notebook:cuda12-latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
