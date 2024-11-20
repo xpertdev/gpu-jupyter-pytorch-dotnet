@@ -1,15 +1,14 @@
 FROM tensorflow/tensorflow:latest-gpu-jupyter
-FROM tensorflow/tensorflow:latest-gpu-jupyter
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Amsterdam
+ENV TZ=America/New_York
+ENV DOTNET_VERSION=9.0
 
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install sudo nano python3 python3-pip python3-dev ipython3 plantuml libfontconfig1 nmap dotnet-sdk-$DOTNET_VERSION \
     && cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar \
     && rm -rf /var/lib/apt/lists/* \
-    && rm -rf packages-microsoft-prod.deb
 
 RUN pip3 install --upgrade jupyterlab iplantuml graphviz matplotlib ipykernel
 
