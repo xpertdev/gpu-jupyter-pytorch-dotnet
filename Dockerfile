@@ -7,10 +7,10 @@ ENV DOTNET_VERSION=9.0
 RUN apt-get update && apt-get -y upgrade \
     && apt-get -y install sudo nano python3 python3-pip python3-dev ipython3 libfontconfig1 nmap \ 
     #&& cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -Channel $DOTNET_VERSION -InstallDir /usr/share/dotnet \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -Channel $DOTNET_VERSION -InstallDir /usr/share/dotnet \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+    
 RUN pip3 install --upgrade jupyterlab matplotlib ipykernel
 
 #RUN curl -sL https://deb.nodesource.com/setup_20.x | bash
