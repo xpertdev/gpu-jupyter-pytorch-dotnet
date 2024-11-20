@@ -1,17 +1,13 @@
-version: "3.7"
 services:
   jupyternotebook:
     image: "acevpn/gpu-jupyter-tensorflow-dotnet:latest"
-    #env_file: "env-file"
     container_name: jupyternotebook
     environment:
       - PUID=1000
       - PGID=1000
-      #- JUPYTER_NO_PASSWORD=true
-      #- JUPYTER_PASSWORD_HASH=<somehash>
     volumes:
-      - ./JupyterNotebook:/home/jupyter/work
-    #working_dir: /home/jupyter/work
+      - ./JupyterNotebook:/home/jovyan/work
+      #- ./JupyterNotebook:/home/jupyter/work
     ports:
       - "8888:8888/tcp"
     restart: unless-stopped  
