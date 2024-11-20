@@ -1,16 +1,19 @@
-FROM tensorflow/tensorflow:latest-gpu-jupyter
+FROM quay.io/jupyter/pytorch-notebook:cuda12-latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
-ENV DOTNET_VERSION=9.0
+ENV DOTNET_VERSION=8.0
 
-RUN apt-get update \
-    && apt-get -y upgrade \
-    && apt-get -y install sudo nano python3 python3-pip python3-dev ipython3 plantuml libfontconfig1 nmap dotnet-sdk-$DOTNET_VERSION \
-    && cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar \
-    && rm -rf /var/lib/apt/lists/* \
+USER root
 
-RUN pip3 install --upgrade jupyterlab iplantuml graphviz matplotlib ipykernel
+RUN apt-get update && apt-get -y upgrade \
+    && apt-get -y install wget sudo nano python3 python3-pip python3-dev ipython3 libfontconfig1 \ 
+    #&& cp /usr/share/plantuml/plantuml.jar /usr/local/bin/plantuml.jar \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -Channel $DOTNET_VERSION -InstallDir /usr/share/dotnet \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+RUN pip3 install --upgrade jupyterlab matplotlib ipykernel
 
 #RUN curl -sL https://deb.nodesource.com/setup_20.x | bash
 
@@ -19,7 +22,7 @@ RUN pip3 install --upgrade jupyterlab iplantuml graphviz matplotlib ipykernel
 #     && jupyter lab build
 
 ARG NB_USER="jupyter"
-ARG NB_UID="1000"
+ARG NB_UID="1001"
 ARG NB_GID="100"
 
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
