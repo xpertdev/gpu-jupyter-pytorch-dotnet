@@ -1,6 +1,6 @@
 services:
   jupyternotebook:
-    image: "acevpn/gpu-jupyter-tensorflow-dotnet:latest"
+    image: "acevpn/gpu-jupyter-pytorch-dotnet:latest"
     container_name: jupyternotebook
     environment:
       - PUID=1000
