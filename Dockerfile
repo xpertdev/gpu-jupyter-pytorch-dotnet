@@ -50,7 +50,7 @@ COPY csharp.ipynb $HOME/work/examples/csharp.ipynb
 COPY plantuml.ipynb $HOME/work/examples/plantuml.ipynb
 COPY graphviz.ipynb $HOME/work/examples/graphviz.ipynb
 
-#USER root
+USER root
 
 #RUN chown -R jupyter $HOME/work/examples
 
