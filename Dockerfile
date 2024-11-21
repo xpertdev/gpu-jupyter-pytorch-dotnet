@@ -62,7 +62,7 @@ COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
 RUN fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}
+    fix-permissions "/home/${NB_USER}"
 
 USER $NB_USER
 
