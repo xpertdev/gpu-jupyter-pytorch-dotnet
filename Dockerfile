@@ -27,7 +27,7 @@ RUN pip3 install --upgrade jupyterlab matplotlib ipykernel
 
 #RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
 
-#USER $NB_USER
+USER $NB_USER
 
 #ENV HOME=/home/$NB_USER
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -60,6 +60,10 @@ COPY graphviz.ipynb $HOME/work/examples/graphviz.ipynb
 RUN mkdir $HOME/work/.git
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+
+RUN fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}
+
 USER $NB_USER
 
 CMD ["/start.sh"]
