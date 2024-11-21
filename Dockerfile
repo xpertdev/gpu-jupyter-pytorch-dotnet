@@ -21,19 +21,19 @@ RUN pip3 install --upgrade jupyterlab matplotlib ipykernel
 #     && pip3 install --upgrade jupyterlab-git \
 #     && jupyter lab build
 
-ARG NB_USER="jupyter"
-ARG NB_UID="1001"
-ARG NB_GID="100"
+# ARG NB_USER="jupyter"
+# ARG NB_UID="1000"
+# ARG NB_GID="100"
 
-RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
+#RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
 
 USER $NB_USER
 
-ENV HOME=/home/$NB_USER
+#ENV HOME=/home/$NB_USER
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 ENV DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1
 
-WORKDIR $HOME
+#WORKDIR $HOME
 
 ENV PATH="${PATH}:$HOME/.dotnet/tools/"
 
@@ -44,22 +44,26 @@ RUN jupyter kernelspec list
 
 COPY ./jupyter_notebook_config.py $HOME/.jupyter/jupyter_notebook_config.py
 
-RUN mkdir $HOME/work
-RUN mkdir $HOME/work/examples
+# RUN mkdir $HOME/work
+# RUN mkdir $HOME/work/examples
 COPY csharp.ipynb $HOME/work/examples/csharp.ipynb
 COPY plantuml.ipynb $HOME/work/examples/plantuml.ipynb
 COPY graphviz.ipynb $HOME/work/examples/graphviz.ipynb
 
 USER root
 
-RUN chown -R jupyter $HOME/work/examples
+#RUN chown -R jupyter $HOME/work/examples
 
-RUN usermod -aG sudo $NB_USER
+#RUN usermod -aG sudo $NB_USER
 
 # prevent git init on this level
 RUN mkdir $HOME/work/.git
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+
+RUN fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
 USER $NB_USER
 
 CMD ["/start.sh"]
